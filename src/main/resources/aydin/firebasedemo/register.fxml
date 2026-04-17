@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aydin.firebasedemo.RegisterController">
+   <children>
+      <Label text="REGISTER" textAlignment="CENTER">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <TextField fx:id="usernameField" alignment="CENTER" promptText="USERNAME" />
+      <TextField fx:id="passwordField" alignment="CENTER" promptText="PASSWORD" />
+      <TextField fx:id="emailField" alignment="CENTER" promptText="EMAIL" />
+      <TextField fx:id="phoneNumberField" alignment="CENTER" promptText="PHONE NUMBER" />
+      <HBox alignment="CENTER" prefHeight="49.0" prefWidth="600.0" spacing="50.0">
+         <children>
+            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancel" text="CANCEL" textAlignment="CENTER" />
+            <Button fx:id="registerButton" mnemonicParsing="false" onAction="#registerButtonClicked" text="REGISTER" textAlignment="CENTER" />
+         </children>
+      </HBox>
+      <Label fx:id="errorLabel" textAlignment="CENTER" textFill="RED">
+         <font>
+            <Font size="19.0" />
+         </font></Label>
+   </children>
+</VBox>
