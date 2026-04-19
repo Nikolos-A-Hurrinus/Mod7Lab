@@ -23,6 +23,11 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class PrimaryController {
+
+
+    @FXML
+    private TextField phoneNumberTextField;
+
     @FXML
     private TextField ageTextField;
 
@@ -34,9 +39,6 @@ public class PrimaryController {
 
     @FXML
     private Button readButton;
-
-    @FXML
-    private Button registerButton;
 
     @FXML
     private Button switchSecondaryViewButton;
@@ -63,11 +65,6 @@ public class PrimaryController {
     @FXML
     void readButtonClicked(ActionEvent event) {
         readFirebase();
-    }
-
-    @FXML
-    void registerButtonClicked(ActionEvent event) {
-        registerUser();
     }
 
 
@@ -98,10 +95,11 @@ public class PrimaryController {
                 for (QueryDocumentSnapshot document : documents)
                 {
                     outputTextArea.setText(outputTextArea.getText()+ document.getData().get("Name")+ " , Age: "+
-                            document.getData().get("Age")+ " \n ");
+                            document.getData().get("Age")+ " , Phone Number: " + document.getData().get("PhoneNumber") + " \n ");
                     System.out.println(document.getId() + " => " + document.getData().get("Name"));
                     person  = new Person(String.valueOf(document.getData().get("Name")),
-                            Integer.parseInt(document.getData().get("Age").toString()));
+                            Integer.parseInt(document.getData().get("Age").toString()),
+                            String.valueOf(document.getData().get("PhoneNumber")));
                     listOfUsers.add(person);
                 }
             }
@@ -119,29 +117,6 @@ public class PrimaryController {
         return key;
     }
 
-    public boolean registerUser() {
-        UserRecord.CreateRequest request = new UserRecord.CreateRequest()
-                .setEmail("user222@example.com")
-                .setEmailVerified(false)
-                .setPassword("secretPassword")
-                .setPhoneNumber("+11234567890")
-                .setDisplayName("John Doe")
-                .setDisabled(false);
-
-        UserRecord userRecord;
-        try {
-            userRecord = DemoApp.fauth.createUser(request);
-            System.out.println("Successfully created new user with Firebase Uid: " + userRecord.getUid()
-            + " check Firebase > Authentication > Users tab");
-            return true;
-
-        } catch (FirebaseAuthException ex) {
-            // Logger.getLogger(FirestoreContext.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("Error creating a new user in the firebase");
-            return false;
-        }
-
-    }
 
     public void addData() {
 
@@ -150,6 +125,7 @@ public class PrimaryController {
         Map<String, Object> data = new HashMap<>();
         data.put("Name", nameTextField.getText());
         data.put("Age", Integer.parseInt(ageTextField.getText()));
+        data.put("PhoneNumber", phoneNumberTextField.getText());
 
         //asynchronously write data
         ApiFuture<WriteResult> result = docRef.set(data);
