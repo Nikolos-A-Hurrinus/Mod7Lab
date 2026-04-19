@@ -51,7 +51,7 @@ public class SecondaryController {
             // Read fields from Firestore
             String storedPassword = snapshot.getString("password");
 
-            // Compare plaintext passwords
+            // Compare passwords
             if (storedPassword.equals(password)) {
                 System.out.println("Login successful!");
                 DemoApp.setRoot("primary"); // go to main screen
