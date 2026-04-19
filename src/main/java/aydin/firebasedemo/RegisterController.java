@@ -71,7 +71,6 @@ public class RegisterController {
                     + " check Firebase > Authentication > Users tab");
 
         } catch (FirebaseAuthException ex) {
-            // Logger.getLogger(FirestoreContext.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Error creating a new user in the firebase");
             errorLabel.setText("Error: Unable to register user!");
             return false;
