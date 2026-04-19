@@ -19,6 +19,11 @@
               <Button fx:id="signInButton" onAction="#signIn" text="Sign In" textAlignment="CENTER" />
          </children>
       </HBox>
+      <Label fx:id="errorLabel" textFill="RED">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
 
     </children>
     <padding>

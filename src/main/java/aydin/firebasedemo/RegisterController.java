@@ -1,7 +1,11 @@
 package aydin.firebasedemo;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
 import javafx.event.ActionEvent;
@@ -43,12 +47,15 @@ public class RegisterController {
 
     @FXML
     void registerButtonClicked(ActionEvent event) throws IOException {
-        registerUser();
-        DemoApp.setRoot("secondary");
+        if(registerUser()) {
+            DemoApp.setRoot("secondary");
+        }
 
     }
 
     public boolean registerUser() {
+
+        //adds user to authentication
         UserRecord.CreateRequest request = new UserRecord.CreateRequest()
                 .setEmail(emailField.getText())
                 .setEmailVerified(false)
@@ -62,7 +69,6 @@ public class RegisterController {
             userRecord = DemoApp.fauth.createUser(request);
             System.out.println("Successfully created new user with Firebase Uid: " + userRecord.getUid()
                     + " check Firebase > Authentication > Users tab");
-            return true;
 
         } catch (FirebaseAuthException ex) {
             // Logger.getLogger(FirestoreContext.class.getName()).log(Level.SEVERE, null, ex);
@@ -71,8 +77,18 @@ public class RegisterController {
             return false;
         }
 
+        //adds user to firestore so password is saved
+        Map<String, Object> userMap = new HashMap<>();
+        userMap.put("username", usernameField.getText());
+        userMap.put("password", passwordField.getText());
+        userMap.put("email", emailField.getText());
+        userMap.put("phoneNumber", phoneNumberField.getText());
+
+        ApiFuture<WriteResult> result =
+                DemoApp.fstore.collection("Users")
+                        .document(usernameField.getText())
+                        .set(userMap);
+        return true;
     }
-
-
 
 }
